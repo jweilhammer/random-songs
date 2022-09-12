@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
+import SongCard from '../elements/SongCard';
 
 const propTypes = {
   ...SectionProps.types
@@ -48,11 +49,11 @@ const Hero = ({
         <div className={innerClasses}>
           <div className="hero-content">
             <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-              Landing template for <span className="text-color-primary">startups</span>
+              Random <span className="text-color-primary">Songs</span>
             </h1>
             <div className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-                Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.
+                Chooose a category to get started:
                 </p>
               <div className="reveal-from-bottom" data-reveal-delay="600">
                 <ButtonGroup>
@@ -63,6 +64,22 @@ const Hero = ({
                     View on Github
                     </Button>
                 </ButtonGroup>
+
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
+                <SongCard></SongCard>
               </div>
             </div>
           </div>
