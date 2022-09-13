@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
@@ -43,41 +43,61 @@ const Hero = ({
 
 
   const testImg = 'https://i.scdn.co/image/ab67616d00001e024052e974e7fc03fa49770986';
+  const testImg2 = 'https://i.scdn.co/image/ab67706c0000bebbf4a34b7c32348e10489dc472'
   const testSong = 'Live From Space';
   const testArtist = 'Mac Miller';
 
-  const [songs, setSongs] = React.useState(
-    {'popular': 
-      [
-        {'name': "1", "artist": '1', 'img': testImg},
-        {'name': "2", "artist": '2', 'img': testImg},
-        {'name': "3", "artist": '3', 'img': testImg},
-        {'name': "4", "artist": '4', 'img': testImg},
-        {'name': "5", "artist": '5', 'img': testImg},
-        {'name': "6", "artist": '6', 'img': testImg},
-      ]
-    }
-  );
-
+  
   const pageLength = 3;
-  const [displayedSongs, setDisplayedSongs] = React.useState(songs['popular'].slice(0, pageLength));
-  const [songCategory, setSongCategory] = React.useState('popular');
-  const categoryIndexes = {
-    'popular': 0,
+  const [categoryIndexes, setCategoryIndexes] = useState({
+    'Popular': 0,
+    'Hip-Hop': 0,
+  }); 
+
+  const songs = 
+  {
+    'Popular': 
+    [
+      {'name': "1", "artist": '1', 'img': testImg},
+      {'name': "2", "artist": '2', 'img': testImg},
+      {'name': "3", "artist": '3', 'img': testImg},
+      {'name': "4", "artist": '4', 'img': testImg},
+      {'name': "5", "artist": '5', 'img': testImg},
+      {'name': "6", "artist": '6', 'img': testImg},
+    ],
+    'Hip-Hop': 
+    [
+      {'name': "11", "artist": '11', 'img': testImg2},
+      {'name': "12", "artist": '12', 'img': testImg2},
+      {'name': "13", "artist": '13', 'img': testImg2},
+      {'name': "14", "artist": '14', 'img': testImg2},
+      {'name': "15", "artist": '15', 'img': testImg2},
+      {'name': "16", "artist": '16', 'img': testImg2},
+    ]
+  };
+
+  const [category, setCategory] = React.useState('Popular');
+  const [displayedSongs, setDisplayedSongs] = React.useState(songs[category].slice(0, pageLength));
+
+  useEffect(() => {
+    setDisplayedSongs(songs[category].slice(categoryIndexes[category], categoryIndexes[category] + pageLength));
+  }, [category, categoryIndexes])
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
   }
 
+
   const handleNextPage = () => {
-    console.log("HANDLE NEXT PAGE");
-    categoryIndexes[songCategory] = Math.min(songs[songCategory].length - pageLength, categoryIndexes[songCategory] + pageLength);
-    setDisplayedSongs(songs['popular'].slice(categoryIndexes[songCategory], categoryIndexes[songCategory] + pageLength));
-    console.log(categoryIndexes, songCategory,  JSON.stringify(displayedSongs));
+    const tmpIndex = {...categoryIndexes};
+    tmpIndex[category] = Math.min(songs[category].length - pageLength, categoryIndexes[category] + pageLength);
+    setCategoryIndexes(tmpIndex);
   }
 
   const handlePreviousPage = () => {
-    console.log("HANDLE PREVIOUS PAGE");
-    categoryIndexes[songCategory] = Math.max(0, categoryIndexes[songCategory] - pageLength);
-    setDisplayedSongs(songs['popular'].slice(categoryIndexes[songCategory], categoryIndexes[songCategory] + pageLength));
-    console.log(categoryIndexes, songCategory, JSON.stringify(displayedSongs));
+    const tmpIndex = {...categoryIndexes};
+    tmpIndex[category] = Math.max(0, categoryIndexes[category] - pageLength);
+    setCategoryIndexes(tmpIndex);
   }
 
   return (
@@ -89,9 +109,11 @@ const Hero = ({
 
         <div className={innerClasses}>
           <div className="hero-content">
+
             <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
               Random <span className="text-color-primary">Songs</span>
             </h1>
+
             <div className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
                 Chooose a category to get started:
@@ -99,7 +121,7 @@ const Hero = ({
 
               <div className="reveal-from-bottom" data-reveal-delay="600">
 
-              <Dropdown />
+              <Dropdown onChange={handleCategoryChange}/>
 
                 <ButtonGroup>
                   <Button 
