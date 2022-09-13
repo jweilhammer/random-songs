@@ -41,6 +41,45 @@ const Hero = ({
     bottomDivider && 'has-bottom-divider'
   );
 
+
+  const testImg = 'https://i.scdn.co/image/ab67616d00001e024052e974e7fc03fa49770986';
+  const testSong = 'Live From Space';
+  const testArtist = 'Mac Miller';
+
+  const [songs, setSongs] = React.useState(
+    {'popular': 
+      [
+        {'name': "1", "artist": '1', 'img': testImg},
+        {'name': "2", "artist": '2', 'img': testImg},
+        {'name': "3", "artist": '3', 'img': testImg},
+        {'name': "4", "artist": '4', 'img': testImg},
+        {'name': "5", "artist": '5', 'img': testImg},
+        {'name': "6", "artist": '6', 'img': testImg},
+      ]
+    }
+  );
+
+  const pageLength = 3;
+  const [displayedSongs, setDisplayedSongs] = React.useState(songs['popular'].slice(0, pageLength));
+  const [songCategory, setSongCategory] = React.useState('popular');
+  const categoryIndexes = {
+    'popular': 0,
+  }
+
+  const handleNextPage = () => {
+    console.log("HANDLE NEXT PAGE");
+    categoryIndexes[songCategory] = Math.min(songs[songCategory].length - pageLength, categoryIndexes[songCategory] + pageLength);
+    setDisplayedSongs(songs['popular'].slice(categoryIndexes[songCategory], categoryIndexes[songCategory] + pageLength));
+    console.log(categoryIndexes, songCategory,  JSON.stringify(displayedSongs));
+  }
+
+  const handlePreviousPage = () => {
+    console.log("HANDLE PREVIOUS PAGE");
+    categoryIndexes[songCategory] = Math.max(0, categoryIndexes[songCategory] - pageLength);
+    setDisplayedSongs(songs['popular'].slice(categoryIndexes[songCategory], categoryIndexes[songCategory] + pageLength));
+    console.log(categoryIndexes, songCategory, JSON.stringify(displayedSongs));
+  }
+
   return (
     <section
       {...props}
@@ -63,30 +102,35 @@ const Hero = ({
               <Dropdown />
 
                 <ButtonGroup>
-                  <Button color="dark">
+                  <Button 
+                    color="dark"
+                    tag="button"
+                    onClick={handlePreviousPage}
+                  >
                     Previous
                   </Button>
 
-                  <Button color="primary">
+                  <Button 
+                  tag="button"
+                  color="primary"
+                  onClick={handleNextPage}
+                  >
                     Next Page
                   </Button>
                 </ButtonGroup>
 
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
-                <SongCard></SongCard>
+                {
+                // Render songs!
+                displayedSongs
+                .map((song) =>
+                  <SongCard
+                    key={song.name + song.artist}
+                    img={song.img}
+                    name={song.name}
+                    artist={song.artist}
+                  />
+                )
+                }
               </div>
             </div>
           </div>
