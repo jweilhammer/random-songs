@@ -11,7 +11,7 @@ const SongCard = () => {
         src='https://i.scdn.co/image/ab67616d00001e024052e974e7fc03fa49770986'/>
         <CardContent style={{display: 'flex', flexWrap: 'wrap', width: '70%', padding:'0', flexDirection: 'volumn'}}>
           <Typography color="#000000" style={{fontSize: 'max(1.5vh, 1.5vmin)', flexBasis:'100%', marginTop: '2%', marginLeft: '5%', textAlign:'left'}}>
-            Live From Space
+          Live From Space
           </Typography >
           <Typography color="#000000"  style={{fontSize: 'max(1.3vh, 1.3vmin)', flexBasis:'100%', opacity: '0.6',  marginLeft: '5%', marginBottom: '0%', textAlign:'left'}}>
             Mac Miller
