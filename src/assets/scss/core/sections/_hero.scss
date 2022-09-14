@@ -53,6 +53,10 @@
 
 @include media( '>medium' ) {
 
+	.spotify-embed {
+		height: 152px
+	}
+
 	.hero {
 
 		.section-inner {

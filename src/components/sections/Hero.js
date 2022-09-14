@@ -58,7 +58,7 @@ const Hero = ({
   {
     'Popular': 
     [
-      {'name': "1", "artist": '1', 'img': testImg},
+      {'name': "3005", "artist": 'Childish Gambino', 'img': testImg},
       {'name': "2", "artist": '2', 'img': testImg},
       {'name': "3", "artist": '3', 'img': testImg},
       {'name': "4", "artist": '4', 'img': testImg},

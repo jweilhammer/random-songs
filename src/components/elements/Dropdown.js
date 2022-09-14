@@ -10,7 +10,7 @@ const Dropdown = (props) => {
 
   return (
         <FormControl
-        style={{width:'40%', padding: '0', marginBottom:'8px', justifyContent: 'center', textAlign:'center'}}
+        style={{width:'40%', padding: '0', marginBottom:'8px'}}
         >
           <NativeSelect
             defaultValue='Popular'
@@ -20,7 +20,8 @@ const Dropdown = (props) => {
                 background: "#6163FF", color: "#ECEDED",
                 paddingTop:8, paddingBottom:8,
                 fontSize: '100%', fontFamily: "Inter, sans-serif", fontWeight: 600,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                textAlign: 'center'
             }}
             onChange={props.onChange}
           >

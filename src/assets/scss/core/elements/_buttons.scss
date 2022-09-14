@@ -158,6 +158,11 @@
 		width: 100%;
 		max-width: $button--max-size-mobile;
 	}
+
+	// Matching spotify embeds media queries
+	.spotify-embed {
+		height: 80px
+	}
 }
 
 @keyframes button-loading {
