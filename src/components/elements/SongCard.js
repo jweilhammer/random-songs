@@ -4,34 +4,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const SongCard = (props) => {
-  const [embedYoutube, setEmbedYoutube] = useState(false);
-  const [embedSpotify, setEmbedSpotify] = useState(false);
-  const [embeddedContent, setEmbeddedContent] = useState(null);
-  let dynamicSpotifyHeight = 152;
-
-  const handleEmbedSpotify = () => {
-    console.log("SETTING SPOTIFY CONTENT")
-    setEmbeddedContent("https://open.spotify.com/embed/track/2ZltjIqztEpZtafc8w0I9t?utm_source=generator");
-
-  }
-
-  const handleEmbedYoutube = () => {
-    console.log("SETTING YOUTUBE CONTENT")
-    // Return first result from Duck Duck Go API filtering on youtube.com
-    fetch(`https://duckduckgo.com/?q=\\${props.name} ${props.artist} site:youtube.com&format=json&no_redirect=1&t=jweilhammer-random-song`)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          console.log(result);
-          console.log(result.Redirect);
-          setEmbeddedContent("https://www.youtube.com/embed/" + result.Redirect.split("v=")[1]);
-        },
-        (error) => {
-          console.log("Unable to embed youtube video :-(")
-          console.log(error);
-        }
-      )
-  }
 
   return (
     <div>
@@ -50,14 +22,30 @@ const SongCard = (props) => {
               style={{marginLeft:'4%', marginRight: "4%"}}
               src={require('../../assets/images/spotify_icon.svg')}
               alt="Spotify Icon"
-              onClick={handleEmbedSpotify}
+              onClick={() => {
+                console.log("SETTING SPOTIFY CONTENT")
+                props.onEmbedContent(
+                  props.name, 
+                  props.artist,
+                  props.category,
+                  "https://open.spotify.com/embed/track/2ZltjIqztEpZtafc8w0I9t?utm_source=generator"
+                )
+              }}
             />
             <img 
               width="10%"
               margin="0px"
               src={require('../../assets/images/youtube_icon.svg')}
               alt="Youtube Icon"
-              onClick={handleEmbedYoutube}
+              onClick={() => {
+                console.log("SETTING YOUTUBE CONTENT")
+                props.onEmbedContent(
+                  props.name, 
+                  props.artist,
+                  props.category,
+                  "https://www.youtube.com/embed/tG35R8F2j8k"
+                );
+              }}
             />
           </div>
         </CardContent>
@@ -65,19 +53,23 @@ const SongCard = (props) => {
     </Card>
 
     {
-      embeddedContent && 
+      // Render only if parent's embedded content state exists and matches our card
+      props.embeddedContent.content &&
+      props.embeddedContent.name === props.name &&
+      props.embeddedContent.artist === props.artist &&
+      props.embeddedContent.category === props.category &&
       <iframe
         style={{
-          borderRadius:4,
+          borderRadius:14,
           marginTop: '2%',
           maxWidth:'100%',
           maxHeight:'100%',
           overflow: 'hidden',
-          width: `${embeddedContent.includes("youtube") ? "350px" : "350px"}`,
-          height: `${embeddedContent.includes("youtube") ? "197px" : ''}`
+          width: `${props.embeddedContent.content.includes("youtube") ? "350px" : "350px"}`,
+          height: `${props.embeddedContent.content.includes("youtube") ? "197px" : ''}`
         }}
-        className={embeddedContent.includes("spotify") ? 'spotify-embed' : ''}
-        src={embeddedContent}
+        className={props.embeddedContent.content.includes("spotify") ? 'spotify-embed' : ''}
+        src={props.embeddedContent.content}
         frameBorder="0"
         allowFullScreen=""
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"

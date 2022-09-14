@@ -43,9 +43,7 @@ const Hero = ({
 
 
   const testImg = 'https://i.scdn.co/image/ab67616d00001e024052e974e7fc03fa49770986';
-  const testImg2 = 'https://i.scdn.co/image/ab67706c0000bebbf4a34b7c32348e10489dc472'
-  const testSong = 'Live From Space';
-  const testArtist = 'Mac Miller';
+  const testImg2 = 'https://i.scdn.co/image/ab67706c0000bebbf4a34b7c32348e10489dc472';
 
   
   const pageLength = 3;
@@ -76,29 +74,48 @@ const Hero = ({
     ]
   };
 
+  // STATE
+  const defaultEmbeddedContent = {
+    "song": null,
+    "artist": null,
+    "category": null,
+    "content": null,
+  };
+
   const [category, setCategory] = React.useState('Popular');
   const [displayedSongs, setDisplayedSongs] = React.useState(songs[category].slice(0, pageLength));
+  const [embeddedContent, setEmbeddedContent] = React.useState(defaultEmbeddedContent);
 
-  useEffect(() => {
-    setDisplayedSongs(songs[category].slice(categoryIndexes[category], categoryIndexes[category] + pageLength));
-  }, [category, categoryIndexes])
-
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+  // Embed content, state is shared with all cards that render embed if they match
+  const handleSetEmbeddedContent = (name, artist, category, content) => {
+    setEmbeddedContent({ name, artist, category, content });
   }
 
-
+  // Page songs in current category
   const handleNextPage = () => {
     const tmpIndex = {...categoryIndexes};
     tmpIndex[category] = Math.min(songs[category].length - pageLength, categoryIndexes[category] + pageLength);
     setCategoryIndexes(tmpIndex);
+    setEmbeddedContent(defaultEmbeddedContent);
   }
 
   const handlePreviousPage = () => {
     const tmpIndex = {...categoryIndexes};
     tmpIndex[category] = Math.max(0, categoryIndexes[category] - pageLength);
     setCategoryIndexes(tmpIndex);
+    setEmbeddedContent(defaultEmbeddedContent);
   }
+
+  // Change song category
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  }
+
+  // Re-render when our displayed song list changes (paging or changing categories)
+  useEffect(() => {
+    setDisplayedSongs(songs[category].slice(categoryIndexes[category], categoryIndexes[category] + pageLength));
+  }, [category, categoryIndexes])
+
 
   return (
     <section
@@ -150,6 +167,9 @@ const Hero = ({
                     img={song.img}
                     name={song.name}
                     artist={song.artist}
+                    category={category}
+                    embeddedContent={embeddedContent}
+                    onEmbedContent={handleSetEmbeddedContent}
                   />
                 )
                 }
