@@ -5,6 +5,7 @@ import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import SongCard from '../elements/SongCard';
 import Dropdown from '../elements/Dropdown';
+import songs from '../../assets/data/songs.json';
 
 const propTypes = {
   ...SectionProps.types
@@ -42,39 +43,9 @@ const Hero = ({
   );
 
 
-  const testImg = 'https://i.scdn.co/image/ab67616d00001e024052e974e7fc03fa49770986';
-  const testImg2 = 'https://i.scdn.co/image/ab67706c0000bebbf4a34b7c32348e10489dc472';
-
-  
+  // Re-usable state constants
+  const categories = Object.keys(songs);
   const pageLength = 3;
-  const [categoryIndexes, setCategoryIndexes] = useState({
-    'Popular': 0,
-    'Hip-Hop': 0,
-  }); 
-
-  const songs = 
-  {
-    'Popular': 
-    [
-      {'name': "3005", "artist": 'Childish Gambino', 'img': testImg},
-      {'name': "2", "artist": '2', 'img': testImg},
-      {'name': "3", "artist": '3', 'img': testImg},
-      {'name': "4", "artist": '4', 'img': testImg},
-      {'name': "5", "artist": '5', 'img': testImg},
-      {'name': "6", "artist": '6', 'img': testImg},
-    ],
-    'Hip-Hop': 
-    [
-      {'name': "11", "artist": '11', 'img': testImg2},
-      {'name': "12", "artist": '12', 'img': testImg2},
-      {'name': "13", "artist": '13', 'img': testImg2},
-      {'name': "14", "artist": '14', 'img': testImg2},
-      {'name': "15", "artist": '15', 'img': testImg2},
-      {'name': "16", "artist": '16', 'img': testImg2},
-    ]
-  };
-
-  // STATE
   const defaultEmbeddedContent = {
     "song": null,
     "artist": null,
@@ -82,9 +53,20 @@ const Hero = ({
     "content": null,
   };
 
+  // STATE
   const [category, setCategory] = React.useState('Popular');
   const [displayedSongs, setDisplayedSongs] = React.useState(songs[category].slice(0, pageLength));
   const [embeddedContent, setEmbeddedContent] = React.useState(defaultEmbeddedContent);
+  // Initialize category pages to start at 0 index
+  const [categoryIndexes, setCategoryIndexes] = useState(() => {
+    const indexes = {};
+    for (const category of categories) {
+      indexes[category] = 0;
+    }
+
+    console.log("INDEXES", indexes);
+    return indexes;
+  });
 
   // Embed content, state is shared with all cards that render embed if they match
   const handleSetEmbeddedContent = (name, artist, category, content) => {
@@ -138,7 +120,10 @@ const Hero = ({
 
               <div className="reveal-from-bottom" data-reveal-delay="600">
 
-              <Dropdown onChange={handleCategoryChange}/>
+              <Dropdown
+                categories={categories}
+                onChange={handleCategoryChange}
+              />
 
                 <ButtonGroup>
                   <Button 
@@ -168,6 +153,8 @@ const Hero = ({
                     name={song.name}
                     artist={song.artist}
                     category={category}
+                    spotifyId={song.spotifyId}
+                    youtubeId={song.youtubeId}
                     embeddedContent={embeddedContent}
                     onEmbedContent={handleSetEmbeddedContent}
                   />

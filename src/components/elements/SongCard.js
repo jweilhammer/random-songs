@@ -7,17 +7,37 @@ const SongCard = (props) => {
 
   return (
     <div>
-    <Card sx={{ display: 'flex'}} style = {{marginTop: '3%'}}>
+    <Card
+      // Keep kards separated, allow overflow for images to take up full space
+      style = {{marginTop: '3%', overflow:'visible'}}
+    >
       <div style={{ display: 'flex', flexDirection: 'row'}}>
-      <img width='25%' height='100%' src={props.img} alt={props.name + " " + props.artist + " album cover"}/>
-        <CardContent style={{display: 'flex', flexWrap: 'wrap', width: '70%', padding:'0', flexDirection: 'volumn'}}>
-          <Typography style={{fontSize: 'max(1.5vh, 1.5vmin)', flexBasis:'100%', marginTop: '2%', marginLeft: '5%', textAlign:'left'}}>
-          {props.name}
-          </Typography >
-          <Typography style={{fontSize: 'max(1.3vh, 1.3vmin)', flexBasis:'100%', opacity: '0.6',  marginLeft: '5%', marginBottom: '0%', textAlign:'left'}}>
+
+        <img
+          width='25%'
+          height='100%'
+          src={"https://i.scdn.co/image/" + props.img}
+          alt={props.name + " " + props.artist + " album cover"}
+          // Add border less than card so img take up fulls space
+          style={{borderRadius:"2px 0px 0px 2px"}}
+        />
+
+        <CardContent 
+          style={{display: 'flex', flexWrap: 'wrap', width: '70%', padding:'0', flexDirection: 'volumn',  overflow:'hidden'}}
+        >
+          <Typography 
+            style={{fontSize: 'max(1.5vh, 1.5vmin)', flexBasis:'100%', marginTop: '2%', marginLeft: '5%', textAlign:'left'}}
+          >
+            {props.name}
+          </Typography>
+  
+          <Typography
+            style={{fontSize: 'max(1.3vh, 1.3vmin)', flexBasis:'100%', opacity: '0.6',  marginLeft: '5%', marginBottom: '0%', textAlign:'left'}}
+          >
             {props.artist}
           </Typography>
-          <div className="container-card-link" style = {{marginTop: 'auto', textAlign: 'left', justifyContent:'left', width:'100%'}}>
+          <div className="container-card-link" style={{marginTop: 'auto', textAlign: 'left', justifyContent:'left', width:'100%'}}
+          >
             <img width="10%"
               style={{marginLeft:'4%', marginRight: "4%"}}
               src={require('../../assets/images/spotify_icon.svg')}
@@ -28,7 +48,7 @@ const SongCard = (props) => {
                   props.name, 
                   props.artist,
                   props.category,
-                  "https://open.spotify.com/embed/track/2ZltjIqztEpZtafc8w0I9t?utm_source=generator"
+                  "https://open.spotify.com/embed/track/" + props.spotifyId + "?utm_source=generator"
                 )
               }}
             />
@@ -43,7 +63,7 @@ const SongCard = (props) => {
                   props.name, 
                   props.artist,
                   props.category,
-                  "https://www.youtube.com/embed/tG35R8F2j8k"
+                  "https://www.youtube.com/embed/" + props.youtubeId
                 );
               }}
             />
