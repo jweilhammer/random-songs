@@ -23,7 +23,7 @@ const SongCard = (props) => {
         />
 
         <CardContent 
-          style={{display: 'flex', flexWrap: 'wrap', width: '70%', padding:'0', flexDirection: 'volumn',  overflow:'hidden'}}
+          style={{display: 'flex', flexWrap: 'wrap', width: '70%', padding:'0', height: props.cardHeight, flexDirection: 'volumn',  overflow:'hidden'}}
         >
           <Typography 
             style={{fontSize: 'max(1.5vh, 1.5vmin)', flexBasis:'100%', marginTop: '2%', marginLeft: '5%', textAlign:'left'}}

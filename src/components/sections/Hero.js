@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
 import ButtonGroup from '../elements/ButtonGroup';
@@ -99,6 +99,40 @@ const Hero = ({
   }, [category, categoryIndexes])
 
 
+  // Make cards not jump when rendering/loading images
+  // Keep cards a constant height, and not flexing on image size
+  // TODO: Any better way to do this??
+  const cardContainer = useRef(null);
+  const [cardHeight, setCardHeight] = React.useState(() => {
+    console.log("SETTING INITIAL CARD HEIGHT", cardContainer);
+  });
+  useLayoutEffect(() => {
+    if (!cardHeight) {
+      setCardHeight(cardContainer.current.offsetWidth / 4);
+    }
+
+    function debounce(fn, ms) {
+      let timer
+      return _ => {
+        clearTimeout(timer)
+        timer = setTimeout(_ => {
+          timer = null
+          fn.apply(this, arguments)
+        }, ms)
+      };
+    }
+
+    function handleResize() {
+      setCardHeight(cardContainer.current.offsetWidth / 4)
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return _ => {
+      window.removeEventListener('resize', handleResize);
+    }
+  })
+
   return (
     <section
       {...props}
@@ -113,7 +147,7 @@ const Hero = ({
               Random <span className="text-color-primary">Songs</span>
             </h1>
 
-            <div className="container-xs">
+            <div ref={cardContainer} className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
                 Chooose a category to get started:
               </p>
@@ -157,6 +191,7 @@ const Hero = ({
                     youtubeId={song.youtubeId}
                     embeddedContent={embeddedContent}
                     onEmbedContent={handleSetEmbeddedContent}
+                    cardHeight={cardHeight}
                   />
                 )
                 }
