@@ -11,13 +11,10 @@ def get_spotify_auth_token():
     response = requests.post(
         "https://accounts.spotify.com/api/token",
         headers={
-            "Authorization": 
-                f"Basic {base64.b64encode((client_id+':'+client_secret).encode('ascii')).decode('ascii')}"
+            "Authorization": f"Basic {base64.b64encode((client_id+':'+client_secret).encode('ascii')).decode('ascii')}"
         },
-        data={
-            "grant_type": "client_credentials"
-        }
-    );
+        data={"grant_type": "client_credentials"},
+    )
 
     print(response)
     print(response.json().get("access_token"))
@@ -29,12 +26,10 @@ def get_spotify_auth_token():
 # { "hip-hop": "123", ... }
 def get_categories():
     response = session.get(
-        url = "https://api.spotify.com/v1/browse/categories",
-        headers=headers,
-        timeout=10
+        url="https://api.spotify.com/v1/browse/categories", headers=headers, timeout=10
     )
 
-    data = response.json().get("categories").get("items");
+    data = response.json().get("categories").get("items")
 
     categories = {}
     for category in data:
@@ -42,18 +37,19 @@ def get_categories():
 
     return categories
 
+
 def get_playlists_for_category(category_id):
     response = session.get(
-        url = f"https://api.spotify.com/v1/browse/categories/{category_id}/playlists",
+        url=f"https://api.spotify.com/v1/browse/categories/{category_id}/playlists",
         headers=headers,
-        timeout=10
+        timeout=10,
     )
 
-    data = response.json().get("playlists").get("items");
+    data = response.json().get("playlists").get("items")
 
     playlists = {}
     for playlist in data:
-        if (playlist):
+        if playlist:
             playlists[playlist["name"]] = {
                 "id": playlist["id"],
                 "description": playlist["description"],
@@ -61,26 +57,23 @@ def get_playlists_for_category(category_id):
 
     return playlists
 
+
 def get_tracks_in_playlist(playlist_id):
     response = session.get(
-        url = f"https://api.spotify.com/v1/playlists/{playlist_id}",
+        url=f"https://api.spotify.com/v1/playlists/{playlist_id}",
         headers=headers,
-        timeout=10
+        timeout=10,
     )
 
     tracks = {}
-    data = response.json().get("tracks");
+    data = response.json().get("tracks")
     tracks.update(extract_playlist_track_info(data["items"]))
 
     # Loop through all pages of the playlist's tracks
-    while(data["next"]):
-        response = session.get(
-            url = data["next"],
-            headers=headers,
-            timeout=10
-        )
+    while data["next"]:
+        response = session.get(url=data["next"], headers=headers, timeout=10)
 
-        data = response.json();
+        data = response.json()
         tracks.update(extract_playlist_track_info(data["items"]))
 
     return tracks
@@ -91,22 +84,21 @@ def extract_playlist_track_info(playlistItems):
     for item in playlistItems:
 
         # Need checks as some data returns as null from spotify
-        if (item):
+        if item:
 
             # Need checks as some data returns as null from spotify
             track = item["track"]
-            if (item["track"]):
+            if item["track"]:
 
                 # Get track name and create info dict for it
                 info = {
                     "name": track["name"],
                 }
 
-            
                 # Get image for embeds [300x300]
                 # Add else in case the 2nd image isn't [300x300] for any reason
                 for image in track["album"]["images"]:
-                    if (image["height"] == 300):
+                    if image["height"] == 300:
                         info["img"] = image["url"]
 
                 # Throw away tracks that don't have images
@@ -117,11 +109,11 @@ def extract_playlist_track_info(playlistItems):
                 artists = []
                 for artist in track["artists"]:
                     artists.append(artist["name"])
-                info["artist"] = ', '.join(artists)
+                info["artist"] = ", ".join(artists)
 
                 # Store into our tracks dict with ID as the key
                 tracks[track["id"]] = info
-    
+
     return tracks
 
 
@@ -129,17 +121,12 @@ def extract_playlist_track_info(playlistItems):
 # Backoff retries like: time.sleep( {backoff factor} * (2 ** ({number of total retries} - 1)) )
 # Sleeping [0.05s, 0.1s, 0.2s, 0.4s, ...]
 session = requests.Session()
-retries = Retry(total=5,
-                backoff_factor=0.1,
-                status_forcelist=[429, 500, 502, 503, 504]
-                )
-session.mount('https://', HTTPAdapter(max_retries=retries))
+retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[429, 500, 502, 503, 504])
+session.mount("https://", HTTPAdapter(max_retries=retries))
 
 # Auth re-used in future requests
 access_token = get_spotify_auth_token()
-headers = {
-    "Authorization": f"Bearer {access_token}"
-}
+headers = {"Authorization": f"Bearer {access_token}"}
 
 # Get all tracks from all top categories
 categories = get_categories()
@@ -154,6 +141,5 @@ for cat in categories:
         tracks = get_tracks_in_playlist(playlists[playlistName]["id"])
         print(tracks)
         print(len(tracks))
-    
-    print("\n\n\n\n\n")
 
+    print("\n\n\n\n\n")
