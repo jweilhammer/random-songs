@@ -120,3 +120,25 @@ class SpotifyAPI:
                     tracks[track["id"]] = info
 
         return tracks
+
+    def search_for_playlists(self, keyword):
+        response = self.session.get(
+            url=f"https://api.spotify.com/v1/search",
+            timeout=10,
+            params={
+                "type": "playlist",
+                "q": keyword,
+                "limit": 10
+            }
+        )
+
+        data = response.json().get("playlists").get("items")
+        playlists = {}
+        for playlist in data:
+            if playlist:
+                playlists[playlist["name"]] = {
+                    "id": playlist["id"],
+                    "description": playlist["description"],
+                }
+
+        return playlists
