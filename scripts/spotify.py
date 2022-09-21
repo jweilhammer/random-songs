@@ -116,6 +116,9 @@ class SpotifyAPI:
                         artists.append(artist["name"])
                     info["artist"] = ", ".join(artists)
 
+                    # Save popularity so we can filter out bad/dead songs
+                    info["popularity"] = track["popularity"]
+
                     # Add track info for this playlist
                     tracks[track["id"]] = info
 

@@ -139,7 +139,6 @@ const Hero = ({
       className={outerClasses}
     >
       <div className="container-sm">
-
         <div className={innerClasses}>
           <div className="hero-content">
 
@@ -182,13 +181,13 @@ const Hero = ({
                 displayedSongs
                 .map((song) =>
                   <SongCard
-                    key={song.name + song.artist}
-                    img={song.img}
-                    name={song.name}
-                    artist={song.artist}
+                    key={song.s}
+                    img={song.i}
+                    name={song.n}
+                    artist={song.a}
                     category={category}
-                    spotifyId={song.spotifyId}
-                    youtubeId={song.youtubeId}
+                    spotifyId={song.s}
+                    youtubeId={song.y}
                     embeddedContent={embeddedContent}
                     onEmbedContent={handleSetEmbeddedContent}
                     cardHeight={cardHeight}
