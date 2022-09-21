@@ -14,12 +14,15 @@ const SongCard = (props) => {
       <div style={{ display: 'flex', flexDirection: 'row'}}>
 
         <img
-          width='25%'
-          height='100%'
+          width="25%"
           src={"https://i.scdn.co/image/" + props.img}
           alt={props.name + " " + props.artist + " album cover"}
           // Add border less than card so img take up fulls space
-          style={{borderRadius:"2px 0px 0px 2px"}}
+          style={{
+            maxHeight:'100%',
+            // Make image take up space even before it loads
+            background: '#FFFFFF'
+          }}
         />
 
         <CardContent 
