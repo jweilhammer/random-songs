@@ -21,7 +21,8 @@ const SongCard = (props) => {
           style={{
             maxHeight:'100%',
             // Make image take up space even before it loads
-            background: '#FFFFFF'
+            background: '#151719',
+            color: '#ECEDED'
           }}
         />
 
