@@ -52,8 +52,7 @@ def add_playlists_from_popular_categories(spotify_api, total_playlists):
                 del playlists[badPlaylist]
             
             # Rename "Top Lists" to "Popular" instead
-            total_playlists["Popular"] = total_playlists["Top Lists"]
-            del total_playlists["Top Lists"]
+            total_playlists["Popular"] = total_playlists.pop("Top Lists")
 
 
         # Remove playlists that make some categories bad/too similar to other categories
