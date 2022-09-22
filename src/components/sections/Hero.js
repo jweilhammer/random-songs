@@ -216,7 +216,6 @@ const Hero = ({
                     artist={song.a}
                     category={category}
                     spotifyId={song.s}
-                    youtubeId={song.y}
                     embeddedContent={embeddedContent}
                     onEmbedContent={handleSetEmbeddedContent}
                     cardHeight={cardHeight}

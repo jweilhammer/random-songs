@@ -4,6 +4,27 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const SongCard = (props) => {
+  // Return first result from Duck Duck Go API filtering on youtube.com
+  const handleEmbedYoutube = () => {
+    fetch(`https://duckduckgo.com/?q=\\${props.name} ${props.artist} site:youtube.com&format=json&no_redirect=1&t=jweilhammer-random-song`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result);
+          console.log(result.Redirect);
+          props.onEmbedContent(
+            props.name, 
+            props.artist,
+            props.category,
+            "https://www.youtube.com/embed/" + result.Redirect.split("v=")[1]
+          );
+        },
+        (error) => {
+          console.log("Unable to embed youtube video :-(")
+          console.log(error);
+        }
+      )
+  }
 
   return (
     <div>
@@ -61,15 +82,7 @@ const SongCard = (props) => {
               margin="0px"
               src={require('../../assets/images/youtube_icon.svg')}
               alt="Youtube Icon"
-              onClick={() => {
-                console.log("SETTING YOUTUBE CONTENT")
-                props.onEmbedContent(
-                  props.name, 
-                  props.artist,
-                  props.category,
-                  "https://www.youtube.com/embed/" + props.youtubeId
-                );
-              }}
+              onClick={handleEmbedYoutube}
             />
           </div>
         </CardContent>
