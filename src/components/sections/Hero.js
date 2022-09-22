@@ -110,9 +110,21 @@ const Hero = ({
     setCategory(event.target.value);
   }
 
+
+  // Pre-load images to prevent flashing when new pages are loading
+  const preLoadImages = (songs) => {
+    for (const song of songs) {
+      const img = new Image();
+      img.src = "https://i.scdn.co/image/" + song.i;
+    }
+  }
+
   // Re-render when our displayed song list changes (paging or changing categories)
   useEffect(() => {
     setDisplayedSongs(props.songs[category].slice(categoryIndexes[category], categoryIndexes[category] + pageLength));
+
+    // Start pre-loading images for the next two pages
+    preLoadImages(props.songs[category].slice(categoryIndexes[category] + pageLength, categoryIndexes[category] + pageLength * 3))
   }, [category, categoryIndexes])
 
 
