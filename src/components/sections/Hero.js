@@ -52,7 +52,17 @@ const Hero = ({
   );
 
 
-
+	// Modern Fisher–Yates shuffle for randomizing songs:
+	// https://en.wikipedia.org/wiki/Fisher-Yates_shuffle
+	const shuffleArray = (array) => {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1)); // random from 0 -> i
+			const temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+		return array;
+	}
 
   // STATE
   const [categories, setCategories] = React.useState(() => {
@@ -62,13 +72,19 @@ const Hero = ({
     const preferredOrder = ["Popular", "Hip-Hop", "Rock", "Pop", "70s", "80s", "90s","2000s", "2010s"];
     const categories = Object.keys(props.songs);
     categories.sort();
-    for(const category of preferredOrder.reverse()) {
+    for (const category of preferredOrder.reverse()) {
       console.log(category)
       const index = categories.indexOf(category);
       if (index > 0) {
         categories.unshift(categories.splice(index, 1)[0]);
       }
     }
+
+    // Also shuffle songs while we're here
+    for (const category of categories) {
+      props.songs[category] = shuffleArray(props.songs[category]);
+    }
+    
 
     return categories;
   });
