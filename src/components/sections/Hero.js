@@ -5,7 +5,6 @@ import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import SongCard from '../elements/SongCard';
 import Dropdown from '../elements/Dropdown';
-import songs from '../../assets/data/songs.json';
 
 // Re-usable constants
 const pageLength = 4;
@@ -16,17 +15,6 @@ const defaultEmbeddedContent = {
   "content": null,
 };
 
-// Set preferred order on categories, sort alphabetically for everything else
-const preferredOrder = ["Popular", "Hip-Hop", "Rock", "Pop", "70s", "80s", "90s","2000s", "2010s"];
-const categories = Object.keys(songs);
-categories.sort();
-for(const category of preferredOrder.reverse()) {
-  console.log(category)
-  const index = categories.indexOf(category);
-  if (index > 0) {
-    categories.unshift(categories.splice(index, 1)[0]);
-  }
-}
 
 const propTypes = {
   ...SectionProps.types
@@ -67,8 +55,25 @@ const Hero = ({
 
 
   // STATE
+  const [categories, setCategories] = React.useState(() => {
+    console.log(props.songs);
+
+    // Set preferred order on categories, sort alphabetically for everything else
+    const preferredOrder = ["Popular", "Hip-Hop", "Rock", "Pop", "70s", "80s", "90s","2000s", "2010s"];
+    const categories = Object.keys(props.songs);
+    categories.sort();
+    for(const category of preferredOrder.reverse()) {
+      console.log(category)
+      const index = categories.indexOf(category);
+      if (index > 0) {
+        categories.unshift(categories.splice(index, 1)[0]);
+      }
+    }
+
+    return categories;
+  });
   const [category, setCategory] = React.useState('Popular');
-  const [displayedSongs, setDisplayedSongs] = React.useState(songs[category].slice(0, pageLength));
+  const [displayedSongs, setDisplayedSongs] = React.useState(props.songs[category].slice(0, pageLength));
   const [embeddedContent, setEmbeddedContent] = React.useState(defaultEmbeddedContent);
   // Initialize category pages to start at 0 index
   const [categoryIndexes, setCategoryIndexes] = useState(() => {
@@ -77,7 +82,6 @@ const Hero = ({
       indexes[category] = 0;
     }
 
-    console.log("INDEXES", indexes);
     return indexes;
   });
 
@@ -89,7 +93,7 @@ const Hero = ({
   // Page songs in current category
   const handleNextPage = () => {
     const tmpIndex = {...categoryIndexes};
-    tmpIndex[category] = Math.min(songs[category].length - pageLength, categoryIndexes[category] + pageLength);
+    tmpIndex[category] = Math.min(props.songs[category].length - pageLength, categoryIndexes[category] + pageLength);
     setCategoryIndexes(tmpIndex);
     setEmbeddedContent(defaultEmbeddedContent);
   }
@@ -108,7 +112,7 @@ const Hero = ({
 
   // Re-render when our displayed song list changes (paging or changing categories)
   useEffect(() => {
-    setDisplayedSongs(songs[category].slice(categoryIndexes[category], categoryIndexes[category] + pageLength));
+    setDisplayedSongs(props.songs[category].slice(categoryIndexes[category], categoryIndexes[category] + pageLength));
   }, [category, categoryIndexes])
 
 
@@ -155,16 +159,16 @@ const Hero = ({
         <div className={innerClasses}>
           <div className="hero-content">
 
-            <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
+            <h1 className="mt-0 mb-16">
               Random <span className="text-color-primary">Songs</span>
             </h1>
 
             <div ref={cardContainer} className="container-xs">
-              <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
+              <p className="m-0 mb-32" data-reveal-delay="400">
                 Chooose a category to get started:
               </p>
 
-              <div className="reveal-from-bottom" data-reveal-delay="600">
+              <div className="" data-reveal-delay="600">
 
               <Dropdown
                 categories={categories}
