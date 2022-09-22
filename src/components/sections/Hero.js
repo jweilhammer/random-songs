@@ -7,6 +7,27 @@ import SongCard from '../elements/SongCard';
 import Dropdown from '../elements/Dropdown';
 import songs from '../../assets/data/songs.json';
 
+// Re-usable constants
+const pageLength = 4;
+const defaultEmbeddedContent = {
+  "song": null,
+  "artist": null,
+  "category": null,
+  "content": null,
+};
+
+// Set preferred order on categories, sort alphabetically for everything else
+const preferredOrder = ["Popular", "Hip-Hop", "Rock", "Pop", "70s", "80s", "90s","2000s", "2010s"];
+const categories = Object.keys(songs);
+categories.sort();
+for(const category of preferredOrder.reverse()) {
+  console.log(category)
+  const index = categories.indexOf(category);
+  if (index > 0) {
+    categories.unshift(categories.splice(index, 1)[0]);
+  }
+}
+
 const propTypes = {
   ...SectionProps.types
 }
@@ -43,15 +64,7 @@ const Hero = ({
   );
 
 
-  // Re-usable state constants
-  const categories = Object.keys(songs);
-  const pageLength = 3;
-  const defaultEmbeddedContent = {
-    "song": null,
-    "artist": null,
-    "category": null,
-    "content": null,
-  };
+
 
   // STATE
   const [category, setCategory] = React.useState('Popular');
