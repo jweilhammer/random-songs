@@ -1,0 +1,45 @@
+name: Update song data using Spotify API
+
+on:
+  schedule:
+    # Runs everyday at midnight (see https://crontab.guru)
+    - cron: '0 0 * * *'
+jobs:
+  build:
+    name: Update songs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        ref: 'releases'
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        pip install -r scripts/requirements.txt
+    - name: Retrieve song data
+      env:
+         SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+         SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+      run: |
+        # Output songs in public dir, TODO: set dir via args to python script?
+        cd public
+        python ../scripts/main.py
+    - name: Commit new song data
+      run: |
+        git config --global user.name 'Github Actions'
+        git config --global user.email '<>'
+  
+        # Always commit: if statement on git diff is weird
+        # If nothing to commit, git will tell us it's up to date
+        git add public/songs.json
+        git commit -m "Release $(date +"%Y-%m-%dT%H:%M")
+
+        Co-authored-by: Jake Weilhammer <jake.weilhammer@gmail.com>" || true
+        git push
+
