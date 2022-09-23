@@ -24,7 +24,7 @@ const Dropdown = (props) => {
           
           {
             props.categories.map((category) =>
-              <option style={{background: "#33363A"}} value={category}>
+              <option style={{background: "#33363A"}} value={category} key={category}>
                 {category}
               </option>
             )
