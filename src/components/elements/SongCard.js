@@ -4,26 +4,38 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const SongCard = (props) => {
-  // Return first result from Duck Duck Go API filtering on youtube.com
   const handleEmbedYoutube = () => {
-    fetch(`https://duckduckgo.com/?q=\\${props.name} ${props.artist} site:youtube.com&format=json&no_redirect=1&t=jweilhammer-random-song`)
+
+    // Used cached result if already viewed youtube video
+    if (props.data.y) {
+      props.onEmbedContent(
+        props.name, 
+        props.artist,
+        props.category,
+        "https://www.youtube.com/embed/" + props.data.y
+      );
+    }
+    else {
+      // Return first result from Duck Duck Go API filtering on youtube.com
+      fetch(`https://duckduckgo.com/?q=\\${props.name} ${props.artist} site:youtube.com&format=json&no_redirect=1&t=jweilhammer-random-song`)
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
-          console.log(result.Redirect);
+          const youtubeId = result.Redirect.split("v=")[1];
           props.onEmbedContent(
             props.name, 
             props.artist,
             props.category,
-            "https://www.youtube.com/embed/" + result.Redirect.split("v=")[1]
+            "https://www.youtube.com/embed/" + youtubeId
           );
+          props.data.y = youtubeId;
         },
         (error) => {
           console.log("Unable to embed youtube video :-(")
           console.log(error);
         }
       )
+    }
   }
 
   return (

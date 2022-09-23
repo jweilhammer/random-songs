@@ -235,6 +235,7 @@ const Hero = ({
                     embeddedContent={embeddedContent}
                     onEmbedContent={handleSetEmbeddedContent}
                     cardHeight={cardHeight}
+                    data={song}
                   />
                 )
                 }
