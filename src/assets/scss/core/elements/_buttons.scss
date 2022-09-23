@@ -1,6 +1,5 @@
 .button {
     display: inline-flex;
-	@include font-size(button);
     @include font-weight(button);
 	padding: (($button-form--height - get-line-height(button) - ($button-form--border-width * 2)) * 0.5) ($button--padding-h - $button-form--border-width);
 	height: $button-form--height;

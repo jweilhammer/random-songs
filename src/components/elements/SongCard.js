@@ -44,7 +44,7 @@ const SongCard = (props) => {
       // Keep kards separated, allow overflow for images to take up full space
       style = {{marginTop: '3%', overflow:'visible'}}
     >
-      <div style={{ display: 'flex', flexDirection: 'row'}}>
+      <div style={{ display: 'flex', flexDirection: 'row', minHeight: props.cardHeight}}>
 
         <img
           width="25%"
@@ -60,16 +60,18 @@ const SongCard = (props) => {
         />
 
         <CardContent 
-          style={{display: 'flex', flexWrap: 'wrap', width: '70%', padding:'0', height: props.cardHeight, flexDirection: 'volumn',  overflow:'hidden'}}
+          style={{display: 'flex', flexWrap: 'wrap', width: '70%', padding:'0', flexDirection: 'volumn',  overflow:'hidden'}}
         >
-          <Typography 
-            style={{fontSize: 'max(1.5vh, 1.5vmin)', flexBasis:'100%', marginTop: '2%', marginLeft: '5%', textAlign:'left'}}
+          <Typography
+            // 155px is about when it become a mobile screen
+            style={{fontSize: props.cardHeight < 155 ? '80%' : "100%", flexBasis:'100%', marginTop: '2%', marginLeft: '5%', textAlign:'left'}}
           >
             {props.name}
           </Typography>
   
           <Typography
-            style={{fontSize: 'max(1.3vh, 1.3vmin)', flexBasis:'100%', opacity: '0.6',  marginLeft: '5%', marginBottom: '0%', textAlign:'left'}}
+            // 155px is about when it become a mobile screen
+            style={{fontSize: props.cardHeight < 155 ? '70%' : "90%", flexBasis:'100%', opacity: '0.6',  marginLeft: '5%', marginBottom: '0%', textAlign:'left'}}
           >
             {props.artist}
           </Typography>
