@@ -4,6 +4,28 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const SongCard = (props) => {
+
+  // State for preventing spamming of youtube fetching, only allow one concurrent onclick
+  const [youtubeDebounceTimerId, setYoutubeDebounceTimer] = useState(null);
+  function debounce(func, timeout) {
+    return (...args) => {
+      // If a timeout isn't currently happening, then call function immediately
+      if (!youtubeDebounceTimerId) {
+        func(...args);
+      }
+      
+      // End previous timeout
+      clearTimeout(youtubeDebounceTimerId);
+
+      // Set our state to the timeout ID, begin timeout
+      setYoutubeDebounceTimer(
+        setTimeout(() => {
+          // Allow function to be called again at end of timeout
+          setYoutubeDebounceTimer(null);
+        }, timeout));
+    }
+  }
+
   const handleEmbedYoutube = () => {
 
     // Used cached result if already viewed youtube video
@@ -96,7 +118,8 @@ const SongCard = (props) => {
               margin="0px"
               src={require('../../assets/images/youtube_icon.svg')}
               alt="Youtube Icon"
-              onClick={handleEmbedYoutube}
+              // Only let someone fetch youtube results once per second, debounce button onclick
+              onClick={debounce(() => handleEmbedYoutube(), 1000)}
             />
           </div>
         </CardContent>
