@@ -61,94 +61,10 @@ $button--max-size-mobile: 		280px;		// button max width on mobile (.button-wide-
 $button-group-padding: 			16px;		// padding between sibling buttons (nested into .button-group)
 $button-loading--thickness:		2px;		// button loading spinner, stroke width (.button.is-loading)
 
-// Forms: color
-$form--color: (
-	input: 						get-color(dark, 1),
-	input-placeholder:		 	get-color(light, 2),
-	label: 						get-color(light, 3),
-    check-radio: 				get-color(light, 2),
-	// ↓ Inverted colors
-	input-inverse: 				get-color(dark, 3),
-	input-placeholder-inverse:	null,
-	label-inverse: 				get-color(dark, 3),
-    check-radio-inverse: 		get-color(dark, 3) 
-);
-
-// Forms: background color
-$form--bg: (
-	input: 							get-color(light, 1),
-	input-focus: 					null,
-	input-disabled: 				get-color(dark, 3),
-	check-radio-checked: 			get-color(primary, 1),
-	switch:							get-color(dark, 3),
-    switch-checked:					get-color(primary, 1),
-    range-track:                    get-color(light, 2),
-    range-thumb:                    get-color(primary, 1),    
-	// ↓ Inverted colors
-	input-inverse: 					null,
-	input-focus-inverse: 			null,
-	input-disabled-inverse: 		darken(get-color(light, 1), 4%),
-	check-radio-checked-inverse:	null,
-	switch-inverse:					null,
-    switch-checked-inverse:			null,
-    range-track-inverse:            null,
-    range-thumb-inverse:            null
-);
-
-// Forms: border color
-$form--border: (
-	input: 						get-color(dark, 1),
-	input-hover: 				get-color(light, 3),
-	input-focus: 				get-color(primary, 1),
-	input-disabled: 			get-color(dark, 2),
-	// ↓ Inverted colors
-	input-inverse: 				darken(get-color(light, 1), 4%),
-	input-hover-inverse: 		null,
-	input-focus-inverse: 		get-color(primary, 1),
-	input-disabled-inverse:		null
-);
-
-// Forms: background color
-$form--icon: (
-    select-arrow:			get-color(light, 1),
-    range:                  get-color(light, 1),
-	// ↓ Inverted colors
-    select-arrow-inverse:	get-color(dark, 3),
-    range-inverse:          get-color(light, 1)
-);
-
-// Forms: font size
-$form--size: (
-	input:			'eta',
-	label: 			'theta',
-	check-radio:	'eta',
-	hint: 			'theta'
-);
-
-// Forms: font weight
-$form--weight: (
-	input: 			null,
-	label: 			500,
-	check-radio:	null
-);
-
-// More forms settings
-$form--padding-h: 	 16px;		// form, inner left and right padding
-$form-sm--padding-h: 12px;		// form (small), inner left and right padding
-$form--radius: 		 0;			// form radius (never use null)
-$form-hint--margin:  8px;		// .form-hint top margin
-$range-thumb-size:   36px;      // .form-slider, thumb size
-
 // Don't change lines below!
 // Push $button--* and $form--* values
 $color: 		map-push($color, $button--color);
-$color: 		map-push($color, $form--color);
 $bg--color: 	map-push($bg--color, $button--bg);
-$bg--color: 	map-push($bg--color, $form--bg);
 $border--color: map-push($border--color, $button--border);
-$border--color: map-push($border--color, $form--border);
-$icon--color:	map-push($icon--color, $form--icon);
 $font--size: 	map-push($font--size, $button--size);
-$font--size: 	map-push($font--size, $form--size);
 $font--weight: 	map-push($font--weight, $button--weight);
-$font--weight: 	map-push($font--weight, $form--weight);

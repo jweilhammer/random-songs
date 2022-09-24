@@ -23,7 +23,6 @@
 		} @else {
 			color: color(link);
 		}
-		text-decoration: $link-main--decoration;
 
 		&:hover,
 		&:active {
@@ -33,7 +32,6 @@
 				color: color(link-hover);
 			}
 			outline: 0;
-			text-decoration: $link-main--decoration-hover;
 		}
 	} @else if ($type == 'header') {
 		@if ( $layout == 'inverse' ) {
@@ -99,7 +97,6 @@
 		} @else {
 			color: color(button-link);
 		}
-		text-decoration: $link-button--decoration;
 
 		&:hover,
 		&:active {
@@ -108,7 +105,6 @@
 			} @else {
 				color: color(button-link-hover);
 			}
-			text-decoration: $link-button--decoration-hover;
 		}
 	} @else if ($type == 'func-link') {
 		@if ( $layout == 'inverse' ) {
@@ -116,7 +112,6 @@
 		} @else {
 			color: color(func-link);
 		}
-		text-decoration: $link-func--decoration;
 
 		&:hover,
 		&:active {
@@ -125,7 +120,6 @@
 			} @else {
 				color: color(func-link-hover);
 			}
-			text-decoration: $link-func--decoration-hover;
 		}
 	}
 }

@@ -77,13 +77,11 @@ a {
 	&.button-link {
 		@include anchor-aspect(button-link);
 		@include font-weight(button-link);
-		text-transform: $link-button--transform;
 	}
 
 	&.func-link {
 		@include anchor-aspect(func-link);
 		@include font-weight(func-link);
-		text-transform: $link-func--transform;		
 	}
 }
 
