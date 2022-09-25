@@ -14,13 +14,16 @@
     "react-scripts": "^3.4.1",
     "sass": "^1.49.7"
   },
+  "devDependencies": {
+    "rewire": "^6.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cruip/open-react-template.git"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "node ./build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
