@@ -32,7 +32,6 @@ const Home = () => {
         songs={data}
         />
       }
-
     </>
   );
 }

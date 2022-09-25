@@ -187,7 +187,7 @@ const Hero = ({
         <div className={innerClasses}>
           <div className="hero-content">
 
-            <h1 className="mt-0 mb-16">
+            <h1 className="mt-0 mb-16" style={{marginTop: "2vh"}}>
               Random <span className="text-color-primary">Songs</span>
             </h1>
 
