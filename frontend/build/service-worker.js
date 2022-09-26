@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.06b79f3a8ff7d776d81338b327984e12.js"
+  "./precache-manifest.f75cc0f6fc352919cbf2fa510f1b7b5c.js"
 );
 
 self.addEventListener('message', (event) => {
@@ -33,9 +33,10 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("/index.html"), {
+workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("./index.html"), {
   
   blacklist: [/^\/_/,/\/[^/?]+\.[^/]+$/],
 });
 
-workbox.routing.registerRoute("/songs.json", new workbox.strategies.CacheFirst({ "cacheName":"song-data", plugins: [new workbox.expiration.Plugin({ maxAgeSeconds: 30, purgeOnQuotaError: false })] }), 'GET');
+workbox.routing.registerRoute("/songs.json", new workbox.strategies.StaleWhileRevalidate(), 'GET');
+workbox.routing.registerRoute("/random-songs/songs.json", new workbox.strategies.StaleWhileRevalidate(), 'GET');

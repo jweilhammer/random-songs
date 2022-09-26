@@ -23,6 +23,11 @@ for (const plugin of config.plugins) {
             //     maxAgeSeconds: 24 * 60 * 60,
             //   },
             // },
+          },
+          // For github-pages deployment
+          {
+            urlPattern: '/random-songs/songs.json',
+            handler: 'StaleWhileRevalidate',
           }
         ]
     }
