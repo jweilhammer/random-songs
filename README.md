@@ -7,8 +7,17 @@ This app uses React for the frontend, and python scripts for data collection
 See live demo here deployed with Github Pages $GITHUB_PAGES_LINK  :
 
 
+# APIs
+Spotify API is used to get the main song data (name, artist, picture, etc...):
+https://developer.spotify.com/documentation/web-api/
+
+
+DuckDuckGo API is used to get youtube links for these same songs to embed music videos.  Currently this is ued client-side and caches the results, I'd like to get these links pre-compiled to serv statically with the rest of the data, but that is more work (see [youtube.py](scripts/youtube.py)):
+https://duckduckgo.com/api
+
+
 # Scripts
-There is a [main spotify data collection script](scripts/main.py) that is run daily on Github actions and commits the latest song data to the repo on the `releases` branch .  Songs are served as a static json that is hosted on github pages and includes 500 songs per category which are shuffled client-side.
+There is a [main spotify data collection script](scripts/main.py) that is run daily on Github actions and commits the latest song data to the repo on the `gh-pages` branch .  Songs are served as a static json that is hosted on github pages and includes 500 songs per category which are shuffled client-side.
 
 The script uses the spotify API to retrieve popular categories and get songs for each.  Custom categories are also defined (decades: 70s, 80s, 90s, etc..)
 
@@ -21,11 +30,11 @@ This app is deployed on Github Pages statically, with Github Actions scripts tha
 
 Currently the builds are done locally so the song data can be updated independently, and so Github Actions doesn't have to re-install and build everytime.
 
-The `releases` branch is what is actively deployed and should be kept up to date with `main`
+The `gh-pages` branch is what is actively deployed and should be kept up to date with `main`
 
 
 See:
-- [.github/workflows/pages_deploy](.github/workflows/spotify_data.yaml)
+- [.github/workflows/pages.yaml](.github/workflows/pages.yaml)
 - [.github/workflows/spotify_data.yaml](.github/workflows/spotify_data.yaml)
 - [frontend/build/](frontend/build/)
 

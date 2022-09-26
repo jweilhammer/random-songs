@@ -52,8 +52,15 @@ def add_playlists_from_popular_categories(spotify_api, total_playlists):
                 del playlists[badPlaylist]
             
             # Rename "Top Lists" to "Popular" instead
-            total_playlists["Popular"] = total_playlists.pop("Top Lists")
+            total_playlists["Popular"] = total_playlists.pop(category)
+    
+        # Rename "Christian & Gospel" to "Christian" instead
+        if "christian" in category.lower():
+            total_playlists["Christian"] = total_playlists.pop(category)
 
+        # Rename "Dance/Electronic" to "Dance/EDM" instead
+        if "dance" in category.lower():
+            total_playlists["Dance/EDM"] = total_playlists.pop(category)
 
         # Remove playlists that make some categories bad/too similar to other categories
         if (category == "Gaming"):
@@ -67,25 +74,24 @@ def add_playlists_from_popular_categories(spotify_api, total_playlists):
 def get_tracks_from_playlists(spotify_api, category_playlists):
     category_tracks = {}
     for category, playlists in category_playlists.items():
-        print("CATEGORY", category)
 
         # Create new dictionary for the category to prevent duplicate songs
         if not category in category_tracks:
             category_tracks[category] = {}
         
-        for playlistName, playlist in playlists.items():
-
-            print("PLAYLIST", playlistName)
+        for playlist in playlists.values():
             tracks = spotify_api.get_tracks_in_playlist(playlist["id"])
             for id, track in tracks.items():
                 track["id"] = id
                 track["category"] = category
                 category_tracks[category][id] = track
+            
+            playlist["tracks"] = len(tracks)
 
-            print("TRACKS:", len(tracks))
-            print("TOTAL TRACKS IN CATEGORY", len(category_tracks[category]))
-            print("\n")
-    
+        print("CATEGORY", category)
+        print("TOTAL UNIQUE TRACKS IN CATEGORY", len(category_tracks[category]))
+        print(json.dumps(playlists, indent=2))
+        print("\n")
     return category_tracks
 
 
@@ -117,6 +123,7 @@ if __name__=="__main__":
     
     # Output songs to their own array per category { "Popular" : [...] }
     output = {}
+    print("TOTAL CATEGORY TRACKS")
     for category, tracks in category_tracks.items():
         if not category in output:
             output[category] = []
@@ -126,7 +133,7 @@ if __name__=="__main__":
         for id, track in tracks.items():
             output[category].append(track)
 
-        print("TOTAL CATEGORY TRACKS", category, len(tracks))
+        print(category, len(tracks))
 
     # Final cleanup on output
     categories_to_delete = []
@@ -157,6 +164,10 @@ if __name__=="__main__":
     # Should always have popular songs as an option
     if not "Popular" in output:
         raise Exception("Popular songs not included!")
+
+    # Should have at least 5 categories
+    if len(output) < 5:
+        raise Exception("There are less than 5 categories!")
 
     with open("songs.json", 'w') as fp:
         json.dump(output, fp, separators=(',', ':'))

@@ -12,7 +12,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
-        ref: 'releases'
+        ref: 'gh-pages'
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -27,9 +27,9 @@ jobs:
          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
       run: |
-        # Output songs in public dir, TODO: set dir via args to python script?
-        cd public
-        python ../scripts/main.py
+        # Output songs in build dir to deploy statically
+        cd frontend/build
+        python ../../scripts/main.py
     - name: Commit new song data
       run: |
         git config --global user.name 'Github Actions'
@@ -37,7 +37,7 @@ jobs:
   
         # Always commit: if statement on git diff is weird
         # If nothing to commit, git will tell us it's up to date
-        git add public/songs.json
+        git add frontend/build/songs.json
         git commit -m "Release $(date +"%Y-%m-%dT%H:%M")
 
         Co-authored-by: Jake Weilhammer <jake.weilhammer@gmail.com>" || true

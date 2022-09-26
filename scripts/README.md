@@ -19,7 +19,7 @@ To update songs for the dev environment, or for a prod build, run:
 cd frontend/public/
 
 # Define Spotify Secrets
-export SPOTIFY_CLIENT_ID="client_id_here"
+export SPOTIFY_CLIENT_ID=8a267fea48bc4cb2b076e8f3f5867360
 export SPOTIFY_CLIENT_SECRET="client_secret_here"
 
 # Output songs in current dir

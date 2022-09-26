@@ -1,5 +1,6 @@
 import json
 import base64
+from os import access
 import requests
 from requests.adapters import HTTPAdapter, Retry
 
@@ -18,6 +19,7 @@ class SpotifyAPI:
         self.session.headers.update({'Authorization': f"Bearer {access_token}"})
 
 
+
     # Get access token to perform requests on spotify API
     def get_spotify_auth_token(self, client_id, client_secret):
         response = self.session.post(
@@ -28,7 +30,9 @@ class SpotifyAPI:
             data={"grant_type": "client_credentials"},
         )
 
-        return response.json().get("access_token")
+        access_token = response.json().get("access_token")
+        print("Authenticated with spotify successfully")
+        return access_token
 
     # Get list of all categories with their name and ID
     # { "hip-hop": "123", ... }
@@ -36,8 +40,6 @@ class SpotifyAPI:
         response = self.session.get(
             url="https://api.spotify.com/v1/browse/categories", timeout=10
         )
-
-        print(response)
 
         data = response.json().get("categories").get("items")
 
