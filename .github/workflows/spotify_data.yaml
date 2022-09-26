@@ -4,6 +4,8 @@ on:
   schedule:
     # Runs everyday at midnight (see https://crontab.guru)
     - cron: '0 0 * * *'
+  push:
+    branches: ["gh-pages"]
 jobs:
   build:
     name: Update songs
