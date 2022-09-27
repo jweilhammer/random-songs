@@ -4,6 +4,12 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["gh-pages"]
+  
+  # Auto release new songs when workflow finishes
+  workflow_run:
+    workflows: [Update song data using Spotify API]
+    types:
+      - completed
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
