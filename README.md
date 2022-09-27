@@ -3,17 +3,19 @@
 Utilizes Spotify and DuckDuckGo APIs to display previews and music videos of popular songs in random order.
 
 This app uses React for the frontend, and python scripts for data collection
-
-See live demo here deployed with Github Pages $GITHUB_PAGES_LINK  :
+<p align="center">
+    Live demo: https://jweilhammer.github.io/random-songs:
+</p>
+<p align="center">
+    <img src="demo.gif" width="450" height="585"/>
+</p>
 
 
 # APIs
-Spotify API is used to get the main song data (name, artist, picture, etc...):
-https://developer.spotify.com/documentation/web-api/
+The [Spotify API](https://developer.spotify.com/documentation/web-api/) is used to get the main song data (name, artist, picture, etc...):
 
 
-DuckDuckGo API is used to get youtube links for these same songs to embed music videos.  Currently this is ued client-side and caches the results, I'd like to get these links pre-compiled to serv statically with the rest of the data, but that is more work (see [youtube.py](scripts/youtube.py)):
-https://duckduckgo.com/api
+The [DuckDuckGo API](https://duckduckgo.com/api) is used to get youtube links for these same songs to embed music videos.  Currently this is ued client-side and caches the results, I'd like to get these links pre-compiled to serv statically with the rest of the data, but that is more work (see [youtube.py](scripts/youtube.py)):
 
 
 # Scripts
